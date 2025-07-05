@@ -29,7 +29,7 @@ export default function PortfolioSection() {
           </h2>
         </div>
         <div 
-          className="overflow-x-auto pb-4 scrollbar-hide"
+          className="overflow-x-auto pb-8 scrollbar-hide"
           style={{
             WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',

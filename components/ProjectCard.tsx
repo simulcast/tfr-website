@@ -90,7 +90,7 @@ export default function ProjectCard({
   );
   
   return (
-    <div className="relative bg-card-gray shadow-[0.75rem_0.75rem_0.5rem_0px_#397e58] border-4 border-card-shadow-green flex-shrink-0 w-full md:w-[calc(50%-1rem)] lg:w-[31rem]">
+    <div className="relative bg-card-gray shadow-[0.75rem_0.75rem_0.5rem_0px_#397e58] hover:shadow-[1rem_1rem_0.75rem_0px_#4a8f6a] border-4 border-card-shadow-green flex-shrink-0 w-full md:w-[calc(50%-1rem)] lg:w-[31rem] transition-all duration-300 ease-in-out">
       {url ? (
         <a 
           href={url} 
