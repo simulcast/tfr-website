@@ -51,21 +51,25 @@ export default function PortfolioSection() {
           </div>
         </div>
         <div 
-          className="overflow-x-auto pb-8 scrollbar-hide"
+          className="overflow-x-auto pb-8 scrollbar-hide -mx-6 md:-mx-12 lg:-mx-[7.5rem]"
           style={{
             WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
           }}
         >
-          <div className="flex gap-8 w-max">
+          <div className="flex w-max">
+            <div className="shrink-0 w-6 md:w-12 lg:w-[7.5rem]" aria-hidden="true" />
             {isLoading ? (
               <div className="flex items-center justify-center w-[31rem] h-[22.4375rem]">
                 <span className="text-primary-green">Loading projects...</span>
               </div>
             ) : (
               projects.map((project, index) => (
-                <div key={project.id || index} className="scroll-snap-start">
+                <div
+                  key={project.id || index}
+                  className={`scroll-snap-start${index !== 0 ? ' ml-8' : ''}`}
+                >
                   <ProjectCard {...project} />
                 </div>
               ))
