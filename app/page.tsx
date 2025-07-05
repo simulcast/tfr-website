@@ -1,5 +1,4 @@
 import Bio from "@/components/Bio";
-import Links from "@/components/Links";
 import PortfolioSection from "@/components/PortfolioSection";
 import { Suspense } from "react";
 
@@ -23,7 +22,6 @@ export default function Home() {
       }>
         <PortfolioSection />
       </Suspense>
-      <Links />
     </main>
   );
 }
