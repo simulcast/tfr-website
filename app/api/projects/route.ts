@@ -7,7 +7,7 @@ export interface Project {
   title: string;
   description: string;
   year: string;
-  image: string;
+  image?: string;
   url?: string;
   video?: string;
   tags?: string[];
@@ -43,8 +43,14 @@ export async function GET(request: Request) {
         const id = file.replace('.json', '');
         
         // Validate required fields
-        if (!projectData.title || !projectData.description || !projectData.year || !projectData.image) {
-          console.warn(`Skipping ${file}: missing required fields`);
+        if (!projectData.title || !projectData.description || !projectData.year) {
+          console.warn(`Skipping ${file}: missing required fields (title, description, or year)`);
+          continue;
+        }
+        
+        // Require either image or video
+        if (!projectData.image && !projectData.video) {
+          console.warn(`Skipping ${file}: missing both image and video fields`);
           continue;
         }
         

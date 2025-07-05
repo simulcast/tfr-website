@@ -84,3 +84,23 @@ h2, .heading-section {
 .scroll-snap-start {
   scroll-snap-align: start;
 }
+
+/* Project card link styling */
+.project-card .bg-metadata-gray a {
+  color: var(--color-primary-green);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: all 0.2s ease-in-out;
+}
+
+.project-card .bg-metadata-gray a:hover {
+  color: var(--color-card-shadow-green);
+  text-decoration-thickness: 2px;
+}
+
+.project-card .bg-metadata-gray a:focus {
+  outline: 2px solid var(--color-card-shadow-green);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
