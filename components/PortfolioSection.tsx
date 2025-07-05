@@ -50,29 +50,48 @@ export default function PortfolioSection() {
             </button>
           </div>
         </div>
+        {/* Mobile: vertical list of 3 projects */}
+        <div className="block md:hidden">
+          {isLoading ? (
+            <div className="flex items-center justify-center w-full h-[22.4375rem]">
+              <span className="text-primary-green">Loading projects...</span>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-8">
+              {projects.slice(0, 3).map((project, index) => (
+                <ProjectCard key={project.id || index} {...project} />
+              ))}
+            </div>
+          )}
+        </div>
+        {/* Tablet and up: horizontal carousel */}
         <div 
-          className="overflow-x-auto pb-8 scrollbar-hide -mx-6 md:-mx-12 lg:-mx-[7.5rem]"
+          className="overflow-x-auto pb-8 scrollbar-hide -mx-6 md:-mx-12 lg:-mx-[7.5rem] hidden md:block"
           style={{
             WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
           }}
         >
-          <div className="flex w-max">
+          <div className="flex w-max items-stretch">
+            {/* Left spacer to align first card with section header */}
             <div className="shrink-0 w-6 md:w-12 lg:w-[7.5rem]" aria-hidden="true" />
             {isLoading ? (
               <div className="flex items-center justify-center w-[31rem] h-[22.4375rem]">
                 <span className="text-primary-green">Loading projects...</span>
               </div>
             ) : (
-              projects.map((project, index) => (
-                <div
-                  key={project.id || index}
-                  className={`scroll-snap-start${index !== 0 ? ' ml-8' : ''}`}
-                >
-                  <ProjectCard {...project} />
-                </div>
-              ))
+              projects.map((project, index) => {
+                const isLast = index === projects.length - 1;
+                return (
+                  <div
+                    key={project.id || index}
+                    className={`scroll-snap-start${index !== 0 ? ' ml-8' : ''}${isLast ? ' md:mr-8' : ''}`}
+                  >
+                    <ProjectCard {...project} />
+                  </div>
+                );
+              })
             )}
           </div>
         </div>
