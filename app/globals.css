@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;700&display=swap');
 
 :root {
   --color-primary-green: #004116;
@@ -12,8 +11,8 @@
 @theme inline {
   --color-background: var(--color-background-green);
   --color-foreground: var(--color-primary-green);
-  --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Space Grotesk', sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 html {
@@ -23,7 +22,7 @@ html {
 body {
   background: var(--color-background-green);
   color: var(--color-primary-green);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -31,7 +30,7 @@ body {
 
 /* Typography */
 h1, .heading-main {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 700;
   font-size: 4rem; /* 64px / 16px */
   line-height: 1.1;
@@ -39,7 +38,7 @@ h1, .heading-main {
 }
 
 h2, .heading-section {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 700;
   font-size: 2rem; /* 32px / 16px */
   line-height: 1.2;

@@ -56,21 +56,35 @@ export default function PortfolioSection() {
             </button>
           </div>
         </div>
-        {/* Mobile: vertical list of 3 projects */}
+        
+        {/* Mobile: vertical list with shuffle animation */}
         <div className="block md:hidden">
-          {isLoading ? (
-            <div className="flex items-center justify-center w-full h-[22.4375rem]">
-              <span className="text-primary-green">Loading projects...</span>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-8">
-              {projects.slice(0, 3).map((project, index) => (
-                <ProjectCard key={project.id || index} {...project} />
-              ))}
-            </div>
-          )}
+          <AnimatePresence mode="wait">
+            {fadeState === 'visible' && (
+              <motion.div
+                key={projects.map(p => p.id || p.title).join(',')}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {isLoading ? (
+                  <div className="flex items-center justify-center w-full h-[22.4375rem]">
+                    <span className="text-primary-green">Loading projects...</span>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-8">
+                    {projects.slice(0, 3).map((project, index) => (
+                      <ProjectCard key={project.id || index} {...project} />
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-        {/* Tablet and up: horizontal carousel */}
+        
+        {/* Tablet and up: horizontal carousel with shuffle animation */}
         <div 
           className="overflow-x-auto pb-8 scrollbar-hide -mx-6 md:-mx-12 lg:-mx-[7.5rem] hidden md:block"
           style={{

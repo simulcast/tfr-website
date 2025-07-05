@@ -16,8 +16,8 @@ const config: Config = {
         'metadata-gray': '#ebebeb',
       },
       fontFamily: {
-        'space-grotesk': ['Space Grotesk', 'sans-serif'],
-        'inter': ['Inter', 'sans-serif'],
+        'space-grotesk': ['Space Grotesk', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        'inter': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       fontSize: {
         'heading-main': '4rem',
