@@ -2,8 +2,8 @@
   "title": "canibringwinetothebowl.com",
   "description": "A reliable answer to a difficult question",
   "year": "2023",
-  "image": "/images/projects/canibringwinetothebowl.jpg",
+  "image": "/images/projects/canibringwine.png",
   "url": "https://canibringwinetothebowl.com",
-  "tags": ["web", "humor"],
-  "defaultOrder": 0
+  "tags": ["la-phil", "silly-little-project"],
+  "defaultOrder": 8
 } 

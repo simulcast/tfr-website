@@ -78,9 +78,10 @@ export default function ProjectCard({
           <h3 className="text-[1rem] font-bold font-inter text-primary-green mb-2">
             {title}
           </h3>
-          <p className="text-[1rem] font-inter text-primary-green">
-            {description}
-          </p>
+          <p 
+            className="text-[1rem] font-inter text-primary-green"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
         </div>
         <span className="text-[1rem] font-inter text-primary-green whitespace-nowrap">
           {year}
