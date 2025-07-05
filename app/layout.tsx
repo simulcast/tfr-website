@@ -3,10 +3,10 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Tristan Friedberg Rodman - Product Leader in Music & AI",
-  description: "I solve problems for musicians, music lovers, and the organizations that support them.",
+  description: "I build products for musicians, music lovers, and the organizations that support them.",
   openGraph: {
     title: "Tristan Friedberg Rodman - Product Leader in Music & AI",
-    description: "I solve problems for musicians, music lovers, and the organizations that support them.",
+    description: "I build products for musicians, music lovers, and the organizations that support them.",
     type: "website",
     siteName: "Tristan Friedberg Rodman",
     images: [
