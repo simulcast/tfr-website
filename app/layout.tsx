@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tfr-website-production.up.railway.app";
+
 export const metadata: Metadata = {
   title: "Tristan Friedberg Rodman - Product Leader in Music & AI",
   description: "I make products that solve problems for musicians, music lovers, and the organizations that support them.",
@@ -11,7 +13,7 @@ export const metadata: Metadata = {
     siteName: "Tristan Friedberg Rodman",
     images: [
       {
-        url: "/images/headshot-wide.png",
+        url: `${siteUrl}/images/headshot-wide.png`,
         width: 1200,
         height: 630,
         alt: "Tristan Friedberg Rodman",
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Tristan Friedberg Rodman - Product Leader in Music & AI",
     description: "I solve problems for musicians, music lovers, and the organizations that support them.",
-    images: ["/images/headshot-wide.png"],
+    images: [`${siteUrl}/images/headshot-wide.png`],
   },
   icons: {
     icon: [
