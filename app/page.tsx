@@ -1,13 +1,13 @@
-import Header from "@/components/Header";
+import Bio from "@/components/Bio";
+import Links from "@/components/Links";
 import PortfolioSection from "@/components/PortfolioSection";
-import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-background-green">
-      <Header />
+      <Bio />
       <PortfolioSection />
-      <Footer />
-      </main>
+      <Links />
+    </main>
   );
 }

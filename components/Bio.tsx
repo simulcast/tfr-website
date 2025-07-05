@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 
-export default function Header() {
+export default function Bio() {
   return (
-    <header className="relative w-full px-6 md:px-12 lg:px-[7.5rem] pt-12 md:pt-16 lg:pt-20">
+    <section className="relative w-full px-6 md:px-12 lg:px-[7.5rem] pt-12 md:pt-16 lg:pt-20">
       <div className="max-w-[90rem] mx-auto">
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-8">
           {/* Text content */}
@@ -43,6 +43,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </header>
+    </section>
   );
 } 
