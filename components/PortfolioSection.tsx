@@ -20,13 +20,35 @@ export default function PortfolioSection() {
     loadInitialProjects();
   }, [searchParams]);
 
+  // Fisher-Yates shuffle
+  function shuffleProjects() {
+    setProjects((prevProjects) => {
+      const shuffled = [...prevProjects];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    });
+  }
+
   return (
     <section className="w-full px-6 md:px-12 lg:px-[7.5rem] pt-4 md:pt-6 lg:pt-4 pb-8 md:pb-12 lg:pb-16">
       <div className="max-w-[90rem] mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] font-bold font-space-grotesk text-primary-green">
-            Featured work
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] font-bold font-space-grotesk text-primary-green">
+              Featured work
+            </h2>
+            <button
+              type="button"
+              onClick={shuffleProjects}
+              aria-label="Shuffle projects"
+              className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] focus:outline-none hover:scale-110 transition-transform"
+            >
+              🔀
+            </button>
+          </div>
         </div>
         <div 
           className="overflow-x-auto pb-8 scrollbar-hide"
