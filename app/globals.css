@@ -16,6 +16,10 @@
   --font-heading: 'Space Grotesk', sans-serif;
 }
 
+html {
+  font-size: 16px; /* Base size for rem calculations */
+}
+
 body {
   background: var(--color-background-green);
   color: var(--color-primary-green);
@@ -29,7 +33,7 @@ body {
 h1, .heading-main {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 64px;
+  font-size: 4rem; /* 64px / 16px */
   line-height: 1.1;
   color: var(--color-primary-green);
 }
@@ -37,33 +41,33 @@ h1, .heading-main {
 h2, .heading-section {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 32px;
+  font-size: 2rem; /* 32px / 16px */
   line-height: 1.2;
   color: var(--color-primary-green);
 }
 
 /* Responsive typography */
-@media (max-width: 767px) {
+@media (max-width: 47.9375rem) { /* 767px / 16px */
   h1, .heading-main {
-    font-size: 40px;
+    font-size: 2.5rem; /* 40px / 16px */
   }
   
   h2, .heading-section {
-    font-size: 24px;
+    font-size: 1.5rem; /* 24px / 16px */
   }
   
   body {
-    font-size: 18px;
+    font-size: 1.125rem; /* 18px / 16px */
   }
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 48rem) and (max-width: 63.9375rem) { /* 768px-1023px / 16px */
   h1, .heading-main {
-    font-size: 48px;
+    font-size: 3rem; /* 48px / 16px */
   }
   
   h2, .heading-section {
-    font-size: 28px;
+    font-size: 1.75rem; /* 28px / 16px */
   }
 }
 

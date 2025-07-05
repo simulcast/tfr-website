@@ -8,8 +8,8 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="w-full px-6 md:px-12 lg:px-[120px] py-16 md:py-20 lg:py-24 mt-16 md:mt-20 lg:mt-24">
-      <div className="max-w-[1440px] mx-auto">
+    <footer className="w-full px-6 md:px-12 lg:px-[7.5rem] py-16 md:py-20 lg:py-24 mt-16 md:mt-20 lg:mt-24">
+      <div className="max-w-[90rem] mx-auto">
         <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
           {socialLinks.map((link) => (
             <a
@@ -17,7 +17,7 @@ export default function Footer() {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[16px] md:text-[18px] font-inter text-primary-green hover:opacity-70 transition-opacity"
+              className="text-[1rem] md:text-[1.125rem] font-inter text-primary-green hover:opacity-70 transition-opacity"
             >
               {link.name}
             </a>

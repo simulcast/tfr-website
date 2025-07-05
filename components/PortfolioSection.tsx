@@ -21,10 +21,10 @@ export default function PortfolioSection() {
   }, [searchParams]);
 
   return (
-    <section className="w-full px-6 md:px-12 lg:px-[120px] mt-12 md:mt-16 lg:mt-20">
-      <div className="max-w-[1440px] mx-auto">
+    <section className="w-full px-6 md:px-12 lg:px-[7.5rem] mt-12 md:mt-16 lg:mt-20">
+      <div className="max-w-[90rem] mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-[24px] md:text-[28px] lg:text-[32px] font-bold font-space-grotesk text-primary-green">
+          <h2 className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] font-bold font-space-grotesk text-primary-green">
             Featured work
           </h2>
         </div>
@@ -38,7 +38,7 @@ export default function PortfolioSection() {
         >
           <div className="flex gap-8 w-max">
             {isLoading ? (
-              <div className="flex items-center justify-center w-[496px] h-[359px]">
+              <div className="flex items-center justify-center w-[31rem] h-[22.4375rem]">
                 <span className="text-primary-green">Loading projects...</span>
               </div>
             ) : (

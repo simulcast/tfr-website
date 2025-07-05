@@ -68,7 +68,7 @@ export default function ProjectCard({
             alt={title}
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 48rem) 100vw, (max-width: 64rem) 50vw, 33vw"
           />
         )}
       </div>
@@ -76,14 +76,14 @@ export default function ProjectCard({
       {/* Metadata section */}
       <div className="bg-metadata-gray p-4 flex justify-between items-start">
         <div className="flex-1 pr-4">
-          <h3 className="text-[16px] font-bold font-inter text-primary-green mb-2">
+          <h3 className="text-[1rem] font-bold font-inter text-primary-green mb-2">
             {title}
           </h3>
-          <p className="text-[16px] font-inter text-primary-green">
+          <p className="text-[1rem] font-inter text-primary-green">
             {description}
           </p>
         </div>
-        <span className="text-[16px] font-inter text-primary-green whitespace-nowrap">
+        <span className="text-[1rem] font-inter text-primary-green whitespace-nowrap">
           {year}
         </span>
       </div>
@@ -91,7 +91,7 @@ export default function ProjectCard({
   );
   
   return (
-    <div className="relative bg-card-gray shadow-[12px_12px_8px_0px_#397e58] border-4 border-card-shadow-green flex-shrink-0 w-full md:w-[calc(50%-16px)] lg:w-[496px]">
+    <div className="relative bg-card-gray shadow-[0.75rem_0.75rem_0.5rem_0px_#397e58] border-4 border-card-shadow-green flex-shrink-0 w-full md:w-[calc(50%-1rem)] lg:w-[31rem]">
       {url ? (
         <a 
           href={url} 
