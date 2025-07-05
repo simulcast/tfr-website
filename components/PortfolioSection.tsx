@@ -1,24 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import ProjectCard from "./ProjectCard";
 import { loadProjects } from "@/lib/projects";
 
 export default function PortfolioSection() {
   const [projects, setProjects] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const loadInitialProjects = async () => {
-      const allProjects = await loadProjects();
+      const tags = searchParams.get('tags');
+      const allProjects = await loadProjects(tags || undefined);
       setProjects(allProjects);
       setIsLoading(false);
     };
     loadInitialProjects();
-  }, []);
+  }, [searchParams]);
 
   return (
-    <section className="w-full px-6 md:px-12 lg:px-[120px] mt-16 md:mt-20 lg:mt-24">
+    <section className="w-full px-6 md:px-12 lg:px-[120px] mt-12 md:mt-16 lg:mt-20">
       <div className="max-w-[1440px] mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-[24px] md:text-[28px] lg:text-[32px] font-bold font-space-grotesk text-primary-green">

@@ -7,11 +7,13 @@ export interface Project {
   url?: string;
   video?: string;
   tags?: string[];
+  defaultOrder?: number;
 }
 
-export async function loadProjects(): Promise<Project[]> {
+export async function loadProjects(tags?: string): Promise<Project[]> {
   try {
-    const response = await fetch('/api/projects');
+    const url = tags ? `/api/projects?tags=${encodeURIComponent(tags)}` : '/api/projects';
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

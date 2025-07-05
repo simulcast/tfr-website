@@ -4,5 +4,6 @@
   "year": "2023",
   "image": "/images/projects/canibringwinetothebowl.jpg",
   "url": "https://canibringwinetothebowl.com",
-  "tags": ["web", "humor", "sports"]
+  "tags": ["web", "humor"],
+  "defaultOrder": 0
 } 

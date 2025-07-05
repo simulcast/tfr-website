@@ -20,15 +20,11 @@ export default function Header() {
               </p>
               
               <p>
-                Currently: re-imagining music creation at Splice, finishing a master's
+                Currently: re-imagining music creation for the AI era at Splice, finishing a master's
                 degree in machine learning at USC Viterbi.
               </p>
               
               <p>Fluent in research, strategy, and code.</p>
-              
-              <p className="text-[16px] md:text-[18px] lg:text-[20px] mt-8">
-                tristanfrodman@gmail.com
-              </p>
             </div>
           </div>
           

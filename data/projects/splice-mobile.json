@@ -4,5 +4,6 @@
     "year": "2024",
     "image": "/images/projects/splice-mic.jpg",
     "video": "https://www.youtube.com/watch?v=DsmuzxgXvzs",
-    "tags": ["mobile", "music", "AI", "product"]
+    "tags": ["mobile", "music", "AI", "product"],
+    "defaultOrder": 3
   } 
