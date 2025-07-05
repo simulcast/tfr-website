@@ -20,33 +20,78 @@ export default function PortfolioSection() {
     loadInitialProjects();
   }, [searchParams]);
 
+  // Fisher-Yates shuffle
+  function shuffleProjects() {
+    setProjects((prevProjects) => {
+      const shuffled = [...prevProjects];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    });
+  }
+
   return (
     <section className="w-full px-6 md:px-12 lg:px-[7.5rem] pt-4 md:pt-6 lg:pt-4 pb-8 md:pb-12 lg:pb-16">
       <div className="max-w-[90rem] mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] font-bold font-space-grotesk text-primary-green">
-            Featured work
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] font-bold font-space-grotesk text-primary-green">
+              Featured work
+            </h2>
+            <button
+              type="button"
+              onClick={shuffleProjects}
+              aria-label="Shuffle projects"
+              className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] focus:outline-none hover:scale-110 transition-transform"
+            >
+              🔀
+            </button>
+          </div>
         </div>
+        {/* Mobile: vertical list of 3 projects */}
+        <div className="block md:hidden">
+          {isLoading ? (
+            <div className="flex items-center justify-center w-full h-[22.4375rem]">
+              <span className="text-primary-green">Loading projects...</span>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-8">
+              {projects.slice(0, 3).map((project, index) => (
+                <ProjectCard key={project.id || index} {...project} />
+              ))}
+            </div>
+          )}
+        </div>
+        {/* Tablet and up: horizontal carousel */}
         <div 
-          className="overflow-x-auto pb-8 scrollbar-hide"
+          className="overflow-x-auto pb-8 scrollbar-hide -mx-6 md:-mx-12 lg:-mx-[7.5rem] hidden md:block"
           style={{
             WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
           }}
         >
-          <div className="flex gap-8 w-max">
+          <div className="flex w-max items-stretch">
+            {/* Left spacer to align first card with section header */}
+            <div className="shrink-0 w-6 md:w-12 lg:w-[7.5rem]" aria-hidden="true" />
             {isLoading ? (
               <div className="flex items-center justify-center w-[31rem] h-[22.4375rem]">
                 <span className="text-primary-green">Loading projects...</span>
               </div>
             ) : (
-              projects.map((project, index) => (
-                <div key={project.id || index} className="scroll-snap-start">
-                  <ProjectCard {...project} />
-                </div>
-              ))
+              projects.map((project, index) => {
+                const isLast = index === projects.length - 1;
+                return (
+                  <div
+                    key={project.id || index}
+                    className={`scroll-snap-start${index !== 0 ? ' ml-8' : ''}${isLast ? ' md:mr-8' : ''}`}
+                  >
+                    <ProjectCard {...project} />
+                  </div>
+                );
+              })
             )}
           </div>
         </div>

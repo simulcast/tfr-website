@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRef, useLayoutEffect, useState } from "react";
 
 interface ProjectCardProps {
   title: string;
@@ -39,6 +40,27 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   const videoInfo = video ? parseVideoUrl(video) : null;
   
+  // Refs and state for dynamic font sizing
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const [titleSmall, setTitleSmall] = useState(false);
+  const [descSmall, setDescSmall] = useState(false);
+
+  useLayoutEffect(() => {
+    if (titleRef.current) {
+      const lineHeight = parseFloat(getComputedStyle(titleRef.current).lineHeight);
+      const height = titleRef.current.offsetHeight;
+      if (height > 2 * lineHeight) setTitleSmall(true);
+      else setTitleSmall(false);
+    }
+    if (descRef.current) {
+      const lineHeight = parseFloat(getComputedStyle(descRef.current).lineHeight);
+      const height = descRef.current.offsetHeight;
+      if (height > 2 * lineHeight) setDescSmall(true);
+      else setDescSmall(false);
+    }
+  }, [title, description]);
+
   const CardContent = () => (
     <>
       {/* Project image/video */}
@@ -80,11 +102,13 @@ export default function ProjectCard({
       <div className="bg-metadata-gray p-4 flex justify-between items-start">
         <div className="flex-1 pr-4">
           <h3 
-            className="text-[1rem] font-bold font-inter text-primary-green mb-2"
+            ref={titleRef}
+            className={`font-bold font-inter text-primary-green mb-2 ${titleSmall ? 'text-[0.75rem] line-clamp-3' : 'text-[1rem]'} overflow-hidden`}
             dangerouslySetInnerHTML={{ __html: title }}
           />
           <p 
-            className="text-[1rem] font-inter text-primary-green"
+            ref={descRef}
+            className={`font-inter text-primary-green ${descSmall ? 'text-[0.75rem] line-clamp-3' : 'text-[1rem]'} overflow-hidden`}
             dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>
@@ -96,7 +120,7 @@ export default function ProjectCard({
   );
   
   return (
-    <div className="relative bg-card-gray shadow-[0.75rem_0.75rem_0.5rem_0px_#397e58] hover:shadow-[1rem_1rem_0.75rem_0px_#4a8f6a] border-4 border-card-shadow-green flex-shrink-0 w-full md:w-[calc(50%-1rem)] lg:w-[31rem] transition-all duration-300 ease-in-out project-card">
+    <div className="relative flex flex-col h-full bg-card-gray shadow-[0.75rem_0.75rem_0.5rem_0px_#397e58] hover:shadow-[1rem_1rem_0.75rem_0px_#4a8f6a] border-4 border-card-shadow-green flex-shrink-0 w-full md:w-[24rem] lg:w-[31rem] transition-all duration-300 ease-in-out project-card">
       {url ? (
         <a 
           href={url} 
