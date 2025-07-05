@@ -20,7 +20,7 @@ export default function Bio() {
               </p>
               
               <p>
-                Currently: re-imagining music creation for the AI era at Splice, finishing a master's
+                Currently: re-imagining music creation for the AI era at Splice, finishing a master&apos;s
                 degree in machine learning at USC Viterbi.
               </p>
               

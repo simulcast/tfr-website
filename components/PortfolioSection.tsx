@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import ProjectCard from "./ProjectCard";
-import { loadProjects } from "@/lib/projects";
+import { loadProjects, Project } from "@/lib/projects";
 
 export default function PortfolioSection() {
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const searchParams = useSearchParams();
 

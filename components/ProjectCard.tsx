@@ -35,8 +35,7 @@ export default function ProjectCard({
   year, 
   image, 
   url,
-  video,
-  tags 
+  video
 }: ProjectCardProps) {
   const videoInfo = video ? parseVideoUrl(video) : null;
   
