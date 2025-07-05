@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import ProjectCard from "./ProjectCard";
 import { loadProjects, Project } from "@/lib/projects";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function PortfolioSection() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [fadeState, setFadeState] = useState<'visible' | 'hidden'>('visible');
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -20,16 +22,20 @@ export default function PortfolioSection() {
     loadInitialProjects();
   }, [searchParams]);
 
-  // Fisher-Yates shuffle
+  // Fisher-Yates shuffle with fade
   function shuffleProjects() {
-    setProjects((prevProjects) => {
-      const shuffled = [...prevProjects];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      return shuffled;
-    });
+    setFadeState('hidden');
+    setTimeout(() => {
+      setProjects((prevProjects) => {
+        const shuffled = [...prevProjects];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+      });
+      setFadeState('visible');
+    }, 500);
   }
 
   return (
@@ -73,27 +79,38 @@ export default function PortfolioSection() {
             msOverflowStyle: 'none',
           }}
         >
-          <div className="flex w-max items-stretch">
-            {/* Left spacer to align first card with section header */}
-            <div className="shrink-0 w-6 md:w-12 lg:w-[7.5rem]" aria-hidden="true" />
-            {isLoading ? (
-              <div className="flex items-center justify-center w-[31rem] h-[22.4375rem]">
-                <span className="text-primary-green">Loading projects...</span>
-              </div>
-            ) : (
-              projects.map((project, index) => {
-                const isLast = index === projects.length - 1;
-                return (
-                  <div
-                    key={project.id || index}
-                    className={`scroll-snap-start${index !== 0 ? ' ml-8' : ''}${isLast ? ' md:mr-8' : ''}`}
-                  >
-                    <ProjectCard {...project} />
+          <AnimatePresence mode="wait">
+            {fadeState === 'visible' && (
+              <motion.div
+                key={projects.map(p => p.id || p.title).join(',')}
+                className="flex w-max items-stretch"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Left spacer to align first card with section header */}
+                <div className="shrink-0 w-6 md:w-12 lg:w-[7.5rem]" aria-hidden="true" />
+                {isLoading ? (
+                  <div className="flex items-center justify-center w-[31rem] h-[22.4375rem]">
+                    <span className="text-primary-green">Loading projects...</span>
                   </div>
-                );
-              })
+                ) : (
+                  projects.map((project, index) => {
+                    const isLast = index === projects.length - 1;
+                    return (
+                      <div
+                        key={project.id || index}
+                        className={`scroll-snap-start${index !== 0 ? ' ml-8' : ''}${isLast ? ' md:mr-8' : ''}`}
+                      >
+                        <ProjectCard {...project} />
+                      </div>
+                    );
+                  })
+                )}
+              </motion.div>
             )}
-          </div>
+          </AnimatePresence>
         </div>
       </div>
     </section>
