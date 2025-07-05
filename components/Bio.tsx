@@ -15,8 +15,7 @@ export default function Bio() {
             
             <div className="space-y-6 text-[1.125rem] md:text-[1.25rem] lg:text-[1.5rem] font-inter text-primary-green">
               <p>
-                I build products for musicians, music lovers, and the organizations
-                that support them.
+              I make products that solve problems for musicians, music lovers, and the organizations that support them.
               </p>
               
               <p>
