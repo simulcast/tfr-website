@@ -4,7 +4,7 @@ import "./globals.css";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tfr-website-production.up.railway.app";
 
 export const metadata: Metadata = {
-  title: "Tristan Friedberg Rodman - Product Leader in Music & AI",
+  title: "Tristan Friedberg Rodman - Product Leader in Music & AI | Splice, LA Phil",
   description: "I make products that solve problems for musicians, music lovers, and the organizations that support them.",
   openGraph: {
     title: "Tristan Friedberg Rodman - Product Leader in Music & AI",
@@ -25,6 +25,14 @@ export const metadata: Metadata = {
     title: "Tristan Friedberg Rodman - Product Leader in Music & AI",
     description: "I solve problems for musicians, music lovers, and the organizations that support them.",
     images: [`${siteUrl}/images/headshot-opengraph.png`],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
   icons: {
     icon: [

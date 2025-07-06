@@ -1,8 +1,8 @@
 {
   "title": "Baseball Scores",
-  "description": "Ambient soundtracks for the <em>national pastime</em>",
+  "description": "Ambient soundtracks for the national pastime",
   "year": "2025",
-  "image": "/images/projects/baseball-scores.jpg",
+  "image": "/images/projects/baseball-scores.png",
   "tags": ["webdev", "silly-little-project"],
   "url": "https://baseballscores.netlify.app",
   "defaultOrder": 2

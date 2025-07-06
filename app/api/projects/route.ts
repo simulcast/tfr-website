@@ -82,27 +82,43 @@ export async function GET(request: Request) {
         }
       });
       
-      // Sort matching projects by defaultOrder, then add non-matching projects
+      // Sort matching projects: defaultOrder first (if specified), then chronologically (newest to oldest)
       matchingProjects.sort((a, b) => {
-        const orderA = a.defaultOrder ?? parseInt(a.year);
-        const orderB = b.defaultOrder ?? parseInt(b.year);
-        return orderA - orderB;
+        // If both have defaultOrder, sort by that
+        if (a.defaultOrder !== undefined && b.defaultOrder !== undefined) {
+          return a.defaultOrder - b.defaultOrder;
+        }
+        // If only one has defaultOrder, prioritize it
+        if (a.defaultOrder !== undefined) return -1;
+        if (b.defaultOrder !== undefined) return 1;
+        // Otherwise sort chronologically (newest to oldest)
+        return parseInt(b.year) - parseInt(a.year);
       });
       
+      // Sort non-matching projects the same way
       nonMatchingProjects.sort((a, b) => {
-        const orderA = a.defaultOrder ?? parseInt(a.year);
-        const orderB = b.defaultOrder ?? parseInt(b.year);
-        return orderA - orderB;
+        if (a.defaultOrder !== undefined && b.defaultOrder !== undefined) {
+          return a.defaultOrder - b.defaultOrder;
+        }
+        if (a.defaultOrder !== undefined) return -1;
+        if (b.defaultOrder !== undefined) return 1;
+        return parseInt(b.year) - parseInt(a.year);
       });
       
       return NextResponse.json([...matchingProjects, ...nonMatchingProjects]);
     }
     
-    // Default sorting by defaultOrder (0-indexed), fallback to year if not specified
+    // Default sorting: defaultOrder first (if specified), then chronologically (newest to oldest)
     projects.sort((a, b) => {
-      const orderA = a.defaultOrder ?? parseInt(a.year);
-      const orderB = b.defaultOrder ?? parseInt(b.year);
-      return orderA - orderB;
+      // If both have defaultOrder, sort by that
+      if (a.defaultOrder !== undefined && b.defaultOrder !== undefined) {
+        return a.defaultOrder - b.defaultOrder;
+      }
+      // If only one has defaultOrder, prioritize it
+      if (a.defaultOrder !== undefined) return -1;
+      if (b.defaultOrder !== undefined) return 1;
+      // Otherwise sort chronologically (newest to oldest)
+      return parseInt(b.year) - parseInt(a.year);
     });
     
     return NextResponse.json(projects);

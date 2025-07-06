@@ -1,8 +1,7 @@
 {
     "title": "Grid Bud",
-    "description": "Mash-up songs across devices, in real time.",
+    "description": "Mash-up songs across devices, in real time",
     "year": "2016",
     "video": "https://vimeo.com/374014510?p=0s",
-    "tags": ["webdev", "silly-little-project"],
-    "defaultOrder": -15
+    "tags": ["webdev", "silly-little-project"]
   }
