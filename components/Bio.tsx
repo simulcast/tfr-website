@@ -3,12 +3,19 @@
 import Image from "next/image";
 import SocialIcons from "./SocialIcons";
 
-export default function Bio() {
+interface BioProps {
+  onTitleClick?: () => void;
+}
+
+export default function Bio({ onTitleClick }: BioProps) {
   return (
     <section className="relative w-full px-6 md:px-12 lg:px-[7.5rem] py-8 md:py-12 lg:py-16">
       <div className="max-w-[90rem] mx-auto">
         {/* Header */}
-        <h1 className="text-[2.5rem] md:text-[3rem] lg:text-[4rem] font-bold font-space-grotesk text-primary-green leading-[1.1] mb-4 md:mb-6 lg:mb-4">
+        <h1 
+          className={`text-[2.5rem] md:text-[3rem] lg:text-[4rem] font-bold font-space-grotesk text-primary-green leading-[1.1] mb-4 md:mb-6 lg:mb-4 ${onTitleClick ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}`}
+          onClick={onTitleClick}
+        >
           Tristan Friedberg Rodman
         </h1>
         

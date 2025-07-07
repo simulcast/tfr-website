@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useLayoutEffect, useState } from "react";
+import { useRef, useLayoutEffect, useState, memo } from "react";
 
 interface ProjectCardProps {
   title: string;
@@ -30,7 +30,7 @@ function parseVideoUrl(url: string): { platform: 'youtube' | 'vimeo' | null; id:
   return { platform: null, id: null };
 }
 
-export default function ProjectCard({ 
+const ProjectCard = memo(function ProjectCard({ 
   title, 
   description, 
   year, 
@@ -135,4 +135,6 @@ export default function ProjectCard({
       )}
     </div>
   );
-} 
+});
+
+export default ProjectCard; 

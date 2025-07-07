@@ -18,6 +18,24 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const tagsParam = searchParams.get('tags');
+    const collectionParam = searchParams.get('collection');
+    
+    // Collection to tags mapping
+    const collectionToTags: Record<string, string[]> = {
+      'featured-work': ['mobile', 'music', 'AI', 'product'],
+      'la-phil': ['la-phil'],
+      'engineering-discography': ['engineering-discography'],
+      'art-projects': ['webdev', 'silly-little-project'],
+      'early-work': ['early-works'],
+      'everything': []
+    };
+    
+    // Determine which tags to use
+    let tagsToUse = tagsParam;
+    if (collectionParam && collectionToTags[collectionParam]) {
+      // Collection takes precedence over tags parameter
+      tagsToUse = collectionToTags[collectionParam].join('+');
+    }
     
     const projectsDir = path.join(process.cwd(), 'data', 'projects');
     
@@ -64,10 +82,39 @@ export async function GET(request: Request) {
     }
     
     // If tags parameter is provided, filter and reorder projects
-    if (tagsParam) {
-      const requestedTags = tagsParam.split('+').map(tag => tag.toLowerCase().trim());
+    if (tagsToUse) {
+      const requestedTags = tagsToUse.split('+').map(tag => tag.toLowerCase().trim());
       
-      // Separate projects into matching and non-matching
+      // For collections, only show matching projects
+      if (collectionParam && collectionToTags[collectionParam]) {
+        const matchingProjects: Project[] = [];
+        
+        projects.forEach(project => {
+          const projectTags = project.tags?.map(tag => tag.toLowerCase()) || [];
+          const hasMatchingTag = requestedTags.some(tag => projectTags.includes(tag));
+          
+          if (hasMatchingTag) {
+            matchingProjects.push(project);
+          }
+        });
+        
+        // Sort matching projects: defaultOrder first (if specified), then chronologically (newest to oldest)
+        matchingProjects.sort((a, b) => {
+          // If both have defaultOrder, sort by that
+          if (a.defaultOrder !== undefined && b.defaultOrder !== undefined) {
+            return a.defaultOrder - b.defaultOrder;
+          }
+          // If only one has defaultOrder, prioritize it
+          if (a.defaultOrder !== undefined) return -1;
+          if (b.defaultOrder !== undefined) return 1;
+          // Otherwise sort chronologically (newest to oldest)
+          return parseInt(b.year) - parseInt(a.year);
+        });
+        
+        return NextResponse.json(matchingProjects);
+      }
+      
+      // For custom tag combinations, show matching projects first, then non-matching
       const matchingProjects: Project[] = [];
       const nonMatchingProjects: Project[] = [];
       

@@ -1,60 +1,181 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef, useImperativeHandle, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import ProjectCard from "./ProjectCard";
-import { loadProjects, Project } from "@/lib/projects";
+import { loadProjects, loadTagConfig, getNextTagConfig, generateHeaderText, Project, TagConfig } from "@/lib/projects";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function PortfolioSection() {
+interface PortfolioSectionRef {
+  resetToFirstCategory: () => void;
+}
+
+const PortfolioSection = forwardRef<PortfolioSectionRef>((props, ref) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [fadeState, setFadeState] = useState<'visible' | 'hidden'>('visible');
+  const [tagConfig, setTagConfig] = useState<TagConfig[]>([]);
+  const [currentTagIndex, setCurrentTagIndex] = useState(0);
+  const [currentHeaderText, setCurrentHeaderText] = useState("Featured work");
+  const [scrambledText, setScrambledText] = useState("Featured work");
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const searchParams = useSearchParams();
+
+  // Scramble text function
+  const scrambleText = (text: string): string => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+    return text.split('').map(char => {
+      if (char === ' ') return ' ';
+      return chars[Math.floor(Math.random() * chars.length)];
+    }).join('');
+  };
+
+  // Reset function for parent component
+  const resetToFirstCategory = useCallback(() => {
+    setCurrentTagIndex(0);
+    setIsInitialLoad(true);
+    setScrambledText("Featured work");
+  }, []);
+
+  // Expose reset function to parent component
+  useImperativeHandle(ref, () => ({
+    resetToFirstCategory
+  }));
+
+  // Load tag configuration on mount
+  useEffect(() => {
+    const loadConfig = async () => {
+      const config = await loadTagConfig();
+      setTagConfig(config.tagSequence);
+    };
+    loadConfig();
+  }, []);
 
   useEffect(() => {
     const loadInitialProjects = async () => {
       const tags = searchParams.get('tags');
-      const allProjects = await loadProjects(tags || undefined);
-      setProjects(allProjects);
-      setIsLoading(false);
-    };
-    loadInitialProjects();
-  }, [searchParams]);
-
-  // Fisher-Yates shuffle with fade
-  function shuffleProjects() {
-    setFadeState('hidden');
-    setTimeout(() => {
-      setProjects((prevProjects) => {
-        const shuffled = [...prevProjects];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      const collection = searchParams.get('collection');
+      
+      if ((tags || collection) && isInitialLoad) {
+        // URL has custom tags or collection - load those projects and set header
+        const allProjects = await loadProjects(tags || undefined, collection || undefined);
+        setProjects(allProjects);
+        
+        if (collection) {
+          // Find the collection config to get display name
+          const collectionConfig = tagConfig.find(config => config.id === collection);
+          if (collectionConfig) {
+            const displayName = collectionConfig.displayName;
+            setCurrentHeaderText(displayName);
+            setScrambledText(displayName);
+            // Set current index to this collection
+            const index = tagConfig.findIndex(config => config.id === collection);
+            setCurrentTagIndex(index >= 0 ? index : 0);
+          }
+        } else if (tags) {
+          // Generate header text from URL tags
+          const urlTags = tags.split('+').map(tag => tag.trim());
+          const headerText = generateHeaderText(urlTags, tagConfig);
+          setCurrentHeaderText(headerText);
+          setScrambledText(headerText);
+          // Reset to "Featured work" for next shuffle
+          setCurrentTagIndex(0);
         }
-        return shuffled;
-      });
-      setFadeState('visible');
-    }, 500);
-  }
+              } else {
+          // No URL params or not initial load - use current tag config
+          const currentConfig = tagConfig[currentTagIndex];
+          if (currentConfig) {
+            const allProjects = await loadProjects(undefined, currentConfig.id);
+            setProjects(allProjects);
+            setCurrentHeaderText(currentConfig.displayName);
+            setScrambledText(currentConfig.displayName);
+          }
+        }
+      
+      setIsLoading(false);
+      setIsInitialLoad(false);
+    };
+    
+    if (tagConfig.length > 0) {
+      loadInitialProjects();
+    }
+  }, [searchParams, tagConfig, currentTagIndex, isInitialLoad]);
+
+  // Tag-based shuffle with scramble animation
+  const shuffleProjects = useCallback(async () => {
+    if (tagConfig.length === 0) return;
+    
+    setFadeState('hidden');
+    
+    // Get the next category
+    const { index: nextIndex, config: nextConfig } = getNextTagConfig(currentTagIndex, tagConfig);
+    const nextTitle = nextConfig.displayName;
+    
+    // Start scramble animation
+    let scrambleInterval: NodeJS.Timeout;
+    let resolveInterval: NodeJS.Timeout;
+    
+    // Scramble phase (300ms)
+    let scrambleCount = 0;
+    scrambleInterval = setInterval(() => {
+      setScrambledText(scrambleText(nextTitle));
+      scrambleCount++;
+      if (scrambleCount >= 6) { // Scramble 6 times over 300ms
+        clearInterval(scrambleInterval);
+      }
+    }, 50);
+    
+    // Load new projects
+    const newProjects = await loadProjects(undefined, nextConfig.id);
+    setProjects(newProjects);
+    setCurrentTagIndex(nextIndex);
+    setCurrentHeaderText(nextTitle);
+    
+    // Resolve phase (300ms)
+    setTimeout(() => {
+      clearInterval(scrambleInterval);
+      
+      // Gradually resolve the text
+      const finalText = nextTitle;
+      const chars = finalText.split('');
+      let resolvedIndex = 0;
+      
+      resolveInterval = setInterval(() => {
+        if (resolvedIndex >= chars.length) {
+          clearInterval(resolveInterval);
+          setScrambledText(finalText);
+          setFadeState('visible');
+          return;
+        }
+        
+        const resolvedChars = chars.slice(0, resolvedIndex + 1);
+        const remainingChars = chars.slice(resolvedIndex + 1).map(() => 
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()'[Math.floor(Math.random() * 70)]
+        );
+        
+        setScrambledText([...resolvedChars, ...remainingChars].join(''));
+        resolvedIndex++;
+      }, 300 / chars.length); // Distribute 300ms across all characters
+    }, 300);
+  }, [tagConfig, currentTagIndex, scrambleText]);
 
   return (
     <section className="w-full px-6 md:px-12 lg:px-[7.5rem] pt-4 md:pt-6 lg:pt-4 pb-8 md:pb-12 lg:pb-16">
       <div className="max-w-[90rem] mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-2">
-            <h2 className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] font-bold font-space-grotesk text-primary-green">
-              Featured work
-            </h2>
-            <button
-              type="button"
-              onClick={shuffleProjects}
-              aria-label="Shuffle projects"
-              className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] focus:outline-none hover:scale-110 transition-transform"
-            >
-              🔀
-            </button>
-          </div>
+                                  <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={shuffleProjects}
+                aria-label="Shuffle projects"
+                className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] focus:outline-none hover:scale-110 transition-transform"
+              >
+                🔀
+              </button>
+              <h2 className="text-[1.5rem] md:text-[1.75rem] lg:text-[2rem] font-bold font-space-grotesk text-primary-green">
+                {scrambledText}
+              </h2>
+            </div>
         </div>
         
         {/* Mobile: vertical list with shuffle animation */}
@@ -66,7 +187,7 @@ export default function PortfolioSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.3 }}
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center w-full h-[22.4375rem]">
@@ -74,7 +195,7 @@ export default function PortfolioSection() {
                   </div>
                 ) : (
                   <div className="flex flex-col gap-8">
-                    {projects.slice(0, 3).map((project, index) => (
+                    {projects.map((project, index) => (
                       <ProjectCard key={project.id || index} {...project} />
                     ))}
                   </div>
@@ -101,7 +222,7 @@ export default function PortfolioSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.3 }}
               >
                 {/* Left spacer to align first card with section header */}
                 <div className="shrink-0 w-6 md:w-12 lg:w-[7.5rem]" aria-hidden="true" />
@@ -129,4 +250,8 @@ export default function PortfolioSection() {
       </div>
     </section>
   );
-} 
+});
+
+PortfolioSection.displayName = 'PortfolioSection';
+
+export default PortfolioSection; 

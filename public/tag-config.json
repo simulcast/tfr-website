@@ -1,0 +1,34 @@
+{
+  "tagSequence": [
+    {
+      "id": "featured-work",
+      "displayName": "Featured work",
+      "tags": ["mobile", "music", "AI", "product"]
+    },
+    {
+      "id": "la-phil",
+      "displayName": "LA Phil",
+      "tags": ["la-phil"]
+    },
+    {
+      "id": "engineering-discography",
+      "displayName": "Engineering discography",
+      "tags": ["engineering-discography"]
+    },
+    {
+      "id": "art-projects",
+      "displayName": "Art projects",
+      "tags": ["webdev", "silly-little-project"]
+    },
+    {
+      "id": "early-work",
+      "displayName": "Early work",
+      "tags": ["early-works"]
+    },
+    {
+      "id": "all",
+      "displayName": "Everything",
+      "tags": []
+    }
+  ]
+} 

@@ -1,11 +1,21 @@
+"use client";
+
 import Bio from "@/components/Bio";
 import PortfolioSection from "@/components/PortfolioSection";
-import { Suspense } from "react";
+import { Suspense, useRef, useCallback } from "react";
 
 export default function Home() {
+  const portfolioRef = useRef<{ resetToFirstCategory: () => void }>(null);
+
+  const handleTitleClick = useCallback(() => {
+    if (portfolioRef.current) {
+      portfolioRef.current.resetToFirstCategory();
+    }
+  }, []);
+
   return (
     <main className="min-h-screen bg-background-green">
-      <Bio />
+      <Bio onTitleClick={handleTitleClick} />
       <Suspense fallback={
         <section className="w-full px-6 md:px-12 lg:px-[7.5rem] mt-12 md:mt-16 lg:mt-20">
           <div className="max-w-[90rem] mx-auto">
@@ -20,7 +30,7 @@ export default function Home() {
           </div>
         </section>
       }>
-        <PortfolioSection />
+        <PortfolioSection ref={portfolioRef} />
       </Suspense>
     </main>
   );
