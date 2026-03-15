@@ -1,7 +1,22 @@
 import type { Metadata } from "next";
+import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tfr-website-production.up.railway.app";
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["700"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tfr-website.vercel.app";
 
 export const metadata: Metadata = {
   title: "Tristan Friedberg Rodman - Product Leader in Music & AI | Splice, LA Phil",
@@ -51,23 +66,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* Preconnect to Google Fonts for faster loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Preload critical fonts */}
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;700&display=swap"
-          as="style"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;700&display=swap"
-        />
-      </head>
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body className="antialiased">
         {children}
       </body>
