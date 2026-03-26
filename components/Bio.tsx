@@ -18,11 +18,11 @@ export default function Bio() {
           <div className="flex-1 lg:max-w-[50rem]">
             <div className="space-y-6 text-[1.125rem] md:text-[1.25rem] lg:text-[1.5rem] font-inter text-primary-green">
               <p>
-              I make products that solve problems for musicians, music lovers, and the organizations that support them.
+              I build products that solve problems for musicians, music lovers, and the organizations that support them.
               </p>
               
               <p>
-                Currently: re-imagining music creation for the AI era at Splice, finishing a master&apos;s
+                Currently: re-imagining music creation software at Splice, finishing a master&apos;s
                 degree in machine learning at USC Viterbi.
               </p>
               

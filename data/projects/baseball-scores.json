@@ -1,9 +1,9 @@
 {
   "title": "Baseball Scores",
   "description": "Ambient soundtracks for the national pastime",
-  "year": "2025",
+  "year": "2026",
   "image": "/images/projects/baseball-scores.png",
   "tags": ["webdev", "silly-little-project"],
   "url": "https://baseballscores.io",
-  "defaultOrder": 2
+  "defaultOrder": 0
 } 
